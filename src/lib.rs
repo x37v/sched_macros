@@ -15,9 +15,11 @@ use syn::{
 pub fn derive_graph_leaf(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     let name = input.ident;
+    let generics = input.generics;
+    let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
 
     let expanded = quote! {
-        impl GraphExec for #name {
+        impl #impl_generics GraphExec for #name #ty_generics #where_clause {
             fn exec(&mut self, context: &mut dyn SchedContext, children: &mut dyn ChildExec) -> bool {
                 self.exec_leaf(context);
                 true
@@ -35,9 +37,11 @@ pub fn derive_graph_leaf(input: proc_macro::TokenStream) -> proc_macro::TokenStr
 pub fn derive_graph_node(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     let name = input.ident;
+    let generics = input.generics;
+    let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
 
     let expanded = quote! {
-        impl GraphExec for #name {
+        impl #impl_generics GraphExec for #name #ty_generics #where_clause {
             fn exec(&mut self, context: &mut dyn SchedContext, children: &mut dyn ChildExec) -> bool {
                 self.exec_node(context, children);
                 true
