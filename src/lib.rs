@@ -25,6 +25,7 @@ pub fn derive_graph_leaf(input: proc_macro::TokenStream) -> proc_macro::TokenStr
                 true
             }
 
+            #[cfg(feature = "std")]
             fn children_max(&self) -> ChildCount {
                 ChildCount::None
             }
@@ -47,6 +48,7 @@ pub fn derive_graph_node(input: proc_macro::TokenStream) -> proc_macro::TokenStr
                 true
             }
 
+            #[cfg(feature = "std")]
             fn children_max(&self) -> ChildCount {
                 ChildCount::Inf
             }
